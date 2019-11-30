@@ -8,6 +8,7 @@ from datetime import datetime
 
 from . import GenericSozlukSpider
 from ..items import Girdi
+import time
 
 
 class EksisozlukBaslikSpider(GenericSozlukSpider):
@@ -17,6 +18,13 @@ class EksisozlukBaslikSpider(GenericSozlukSpider):
         super(EksisozlukBaslikSpider, self).__init__(**kwargs)
 
         self.allowed_domains = ['eksisozluk.com']
+    
+    def error(self, response):
+        self.logger.info(response.request.url)
+        self.logger.info("Retrying...")
+        time.sleep(5)
+        yield scrapy.Request(response.request.url, callback=self.parse, errback=self.error)
+
 
     def parse(self, response):
         self.logger.info("PARSING: %s" % response.request.url)
@@ -51,9 +59,9 @@ class EksisozlukBaslikSpider(GenericSozlukSpider):
         current_page = int(response.xpath('//*[@id="topic"]/div[@class="pager"]/@data-currentpage').extract()[0])
         page_count = int(response.xpath('//*[@id="topic"]/div[@class="pager"]/@data-pagecount').extract()[0])
 
-        current_url = response.request.url.split('?p')[0]
+        current_url = response.request.url.split('&p')[0]
 
         next_page = current_page + 1
         if page_count >= next_page:
         # if current_page < 1:
-            yield scrapy.Request(url='%s?p=%s' % (current_url, next_page), callback=self.parse)
+            yield scrapy.Request(url='%s&p=%s' % (current_url, next_page), callback=self.parse, errback=self.error)

@@ -2,6 +2,7 @@
 import scrapy
 from scrapy import Spider
 from scrapy.exceptions import CloseSpider
+import time
 
 from ..utils import is_request_seen
 
@@ -30,7 +31,12 @@ class GenericSozlukSpider(Spider):
 
         for i in self.urls:
             if not is_request_seen(scrapy.Request(url=i, callback=self.parse)):
-                yield scrapy.Request(url=i, callback=self.parse)
-
+                yield scrapy.Request(url=i, callback=self.parse, errback=self.error)
+                        
+                        
+                
     def parse(self, response):
+        raise NotImplementedError
+
+    def error(self, response):
         raise NotImplementedError

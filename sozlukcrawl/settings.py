@@ -92,3 +92,5 @@ USER_AGENTS = [
 
 DOWNLOAD_DELAY = 0.25
 RANDOMIZE_DOWNLOAD_DELAY = True
+
+DUPEFILTER_CLASS = 'scrapy.dupefilters.BaseDupeFilter'
