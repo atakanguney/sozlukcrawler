@@ -57,7 +57,7 @@ BOT_NAME = 'sozlukcrawl'
 SPIDER_MODULES = ['sozlukcrawl.spiders']
 NEWSPIDER_MODULE = 'sozlukcrawl.spiders'
 
-RETRY_ENABLED = False
+RETRY_ENABLED = True
 COOKIES_ENABLED = False
 
 DOWNLOADER_MIDDLEWARES = {
@@ -66,10 +66,10 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 ITEM_PIPELINES = {
-    'sozlukcrawl.pipelines.DatabasePipeline',
+    'sozlukcrawl.pipelines.DatabasePipeline': 300,
 }
 
-DUPEFILTER_CLASS = 'sozlukcrawl.dupefilter.DatabaseDupeFilter'
+# DUPEFILTER_CLASS = 'sozlukcrawl.dupefilter.DatabaseDupeFilter'
 
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",

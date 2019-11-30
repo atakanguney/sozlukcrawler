@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from scrapy import log
+import logging
 from .models import session, Girdi, create_tables
 
+logger = logging.getLogger()
 
 class DatabasePipeline(object):
     def __init__(self):
@@ -20,9 +21,8 @@ class DatabasePipeline(object):
         :return: Gonderilen Item
         :rtype: Scrapy item
         """
-        log.msg('[%s] PROCESSING ITEM [item no: %s, baslik: %s]' %
-                (spider.name, item['girdi_id'], item['baslik']),
-                level=log.DEBUG)
+        logger.debug('[%s] PROCESSING ITEM [item no: %s, baslik: %s]' %
+                (spider.name, item['girdi_id'], item['baslik']))
 
         girdi = Girdi(**item)
         try:

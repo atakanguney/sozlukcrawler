@@ -60,9 +60,9 @@ class Seen(Base):
 
 
 if __name__ == '__main__':
-    print 'Connecting to db'
+    print('Connecting to db')
 
-    print 'Creating tables'
+    print('Creating tables')
     create_tables()
 
     session.close()
